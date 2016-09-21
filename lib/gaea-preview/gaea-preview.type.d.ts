@@ -1,5 +1,10 @@
 import { TransparentlyPropsPropsDefine } from  'nt-transparently-props';
 export interface PropsDefine extends TransparentlyPropsPropsDefine {
+    customComponents?: any;
+    baseComponents?: any;
+    value?: {
+        [mapUniqueKey: string]: any;
+    };
 }
 export declare class PropsGaea {
     gaeaName: string;

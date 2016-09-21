@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {observer} from 'mobx-react'
 import GaeaPreview from '../index'
+import GaeaWebComponents from '../../gaea-web-components/index'
 
 @observer
 export default class Demo extends React.Component <any, any> {
@@ -9,7 +10,7 @@ export default class Demo extends React.Component <any, any> {
 
     render() {
         return (
-            <GaeaPreview />
+            <GaeaPreview baseComponents={GaeaWebComponents}/>
         )
     }
 }

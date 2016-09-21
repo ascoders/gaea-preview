@@ -1,6 +1,7 @@
-import GaeaPreview from './gaea-preview/gaea-preview.component'
-import {PropsDefine as GaeaPreviewPropsDefine} from './gaea-preview/gaea-preview.type'
-
-export {GaeaPreview, GaeaPreviewPropsDefine}
-export default GaeaPreview
-                
+// import GaeaPreview from './gaea-preview/gaea-preview.component'
+// import {PropsDefine as GaeaPreviewPropsDefine} from './gaea-preview/gaea-preview.type'
+//
+// export {GaeaPreview, GaeaPreviewPropsDefine}
+// export default GaeaPreview
+//
+export default  1

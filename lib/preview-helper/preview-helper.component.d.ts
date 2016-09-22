@@ -6,7 +6,5 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     private componentInfo;
     private SelfComponent;
     componentWillMount(): void;
-    render(): React.ComponentElement<FitGaea.ComponentProps & {
-        children?: React.ReactElement<any> | string | number | {} | (React.ReactElement<any> | string | number | any[] | boolean)[] | boolean;
-    }, any>;
+    render(): React.ReactElement<any>;
 }

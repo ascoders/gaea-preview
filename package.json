@@ -1,6 +1,6 @@
 {
   "name": "gaea-preview",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "盖亚-查看器",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.15.0",
-    "gaea-model": "^0.0.7"
+    "gaea-model": "^0.0.8"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"

@@ -35,8 +35,6 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
             })
         }
 
-        let componentProps = JSON.parse(JSON.stringify(this.componentInfo.props))
-
-        return React.createElement(this.SelfComponent, componentProps, childs)
+        return React.createElement(this.SelfComponent, JSON.parse(JSON.stringify(this.componentInfo.props)), childs)
     }
 }

@@ -19,24 +19,22 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
         this.preview.setCustomComponents(this.props.customComponents)
 
         this.props.value && Object.keys(this.props.value).forEach(mapUniqueKey=> {
-            const defaultInfo = this.props.value[mapUniqueKey]
-            const ComponentClass = this.preview.getComponentByUniqueKey(defaultInfo.props.gaeaUniqueKey)
+            const componentInfo = this.props.value[mapUniqueKey]
+            const ComponentClass = this.preview.getComponentByUniqueKey(componentInfo.props.gaeaUniqueKey)
 
             // 设置根 mapUniqueKey
-            if (defaultInfo.parentMapUniqueKey === null) {
+            if (componentInfo.parentMapUniqueKey === null) {
                 this.preview.setRootUniqueId(mapUniqueKey)
             }
 
-            // 组合成完整的 options
-            let props = _.cloneDeep(ComponentClass.defaultProps)
-            defaultInfo.props && Object.keys(defaultInfo.props).forEach(propsKey=> {
-                props[propsKey] = defaultInfo.props[propsKey]
-            })
+            // 将默认 props 与传进来的 props 做 assign
+            let defaultProps = _.cloneDeep(ComponentClass.defaultProps)
+            const props = _.merge({}, defaultProps, componentInfo.props || {})
 
             this.preview.components.set(mapUniqueKey, {
                 props: props,
-                layoutChilds: defaultInfo.layoutChilds || [],
-                parentMapUniqueKey: defaultInfo.parentMapUniqueKey
+                layoutChilds: componentInfo.layoutChilds || [],
+                parentMapUniqueKey: componentInfo.parentMapUniqueKey
             })
         })
     }

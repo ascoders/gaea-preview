@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as typings from './gaea-preview.type'
 import * as _ from 'lodash'
 import PreviewStore from '../store/preview'
+import * as LZString from 'lz-string'
 
 import PreviewHelper from '../preview-helper/preview-helper.component'
 
@@ -18,8 +19,19 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
         // 设置自定义组件
         this.preview.setCustomComponents(this.props.customComponents)
 
-        this.props.value && Object.keys(this.props.value).forEach(mapUniqueKey=> {
-            const componentInfo = this.props.value[mapUniqueKey]
+        // 解析 base64 的 value
+        let unCompressValue: {
+            [mapUniqueKey: string]: FitGaea.ViewportComponentInfo
+        } = {}
+
+        if (this.props.value) {
+            unCompressValue = JSON.parse(LZString.decompressFromBase64(this.props.value)) as{
+                [mapUniqueKey: string]: FitGaea.ViewportComponentInfo
+            }
+        }
+
+        unCompressValue && Object.keys(unCompressValue).forEach(mapUniqueKey=> {
+            const componentInfo = unCompressValue[mapUniqueKey]
             const ComponentClass = this.preview.getComponentByUniqueKey(componentInfo.props.gaeaUniqueKey)
 
             // 设置根 mapUniqueKey

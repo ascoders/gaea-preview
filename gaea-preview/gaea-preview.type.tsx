@@ -16,9 +16,7 @@ export interface PropsDefine {
     /**
      * 页面信息
      */
-    value?: {
-        [mapUniqueKey: string]: FitGaea.ViewportComponentInfo
-    }
+    value?: string
 }
 
 export class Props implements PropsDefine {

@@ -2,9 +2,7 @@ import * as React from 'react';
 export interface PropsDefine {
     customComponents?: Array<React.ComponentClass<FitGaea.ComponentProps>>;
     baseComponents?: Array<React.ComponentClass<FitGaea.ComponentProps>>;
-    value?: {
-        [mapUniqueKey: string]: FitGaea.ViewportComponentInfo;
-    };
+    value?: string;
 }
 export declare class Props implements PropsDefine {
 }

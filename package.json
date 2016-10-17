@@ -1,6 +1,6 @@
 {
   "name": "gaea-preview",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "盖亚-查看器",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -16,7 +16,7 @@
   "dependencies": {
     "lodash": "^4.15.0",
     "lz-string": "^1.4.4",
-    "gaea-model": "^0.0.10"
+    "gaea-model": "^0.0.11"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"

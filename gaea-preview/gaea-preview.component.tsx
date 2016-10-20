@@ -21,6 +21,9 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
         // 设置自定义组件
         this.preview.setCustomComponents(this.props.customComponents)
 
+        // 设置环境
+        this.preview.setIsReactNative(this.props.isReactNative)
+
         // 解析 base64 的 value
         let unCompressValue: {
             [mapUniqueKey: string]: FitGaea.ViewportComponentInfo

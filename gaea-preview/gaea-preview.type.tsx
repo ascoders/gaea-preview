@@ -19,6 +19,11 @@ export interface PropsDefine {
     onCall?: (functionName?: string, param?: any)=>void
 
     /**
+     * 是否是 native 环境
+     */
+    isReactNative?: boolean
+
+    /**
      * 页面信息
      */
     value?: string

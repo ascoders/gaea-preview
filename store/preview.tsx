@@ -71,4 +71,14 @@ export default class Preview {
     setRootUniqueId(uniqueId: string) {
         this.rootMapUniqueKey = uniqueId
     }
+
+    // 是否是 native 环境
+    isReactNative = false
+
+    /**
+     * 设置 native 环境
+     */
+    setIsReactNative(isNative: boolean) {
+        this.isReactNative = isNative
+    }
 }

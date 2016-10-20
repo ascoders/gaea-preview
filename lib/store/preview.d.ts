@@ -12,4 +12,6 @@ export default class Preview {
     components: Map<string, FitGaea.ViewportComponentInfo>;
     rootMapUniqueKey: string;
     setRootUniqueId(uniqueId: string): void;
+    isReactNative: boolean;
+    setIsReactNative(isNative: boolean): void;
 }

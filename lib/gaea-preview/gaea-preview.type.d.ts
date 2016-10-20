@@ -3,6 +3,7 @@ export interface PropsDefine {
     customComponents?: Array<React.ComponentClass<FitGaea.ComponentProps>>;
     baseComponents?: Array<React.ComponentClass<FitGaea.ComponentProps>>;
     onCall?: (functionName?: string, param?: any) => void;
+    isReactNative?: boolean;
     value?: string;
 }
 export declare class Props implements PropsDefine {

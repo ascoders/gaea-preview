@@ -6,6 +6,8 @@ import * as LZString from 'lz-string'
 
 import PreviewHelper from '../preview-helper/preview-helper.component'
 
+import {autoBindMethod} from '../../../common/auto-bind/index'
+
 export default class GaeaPreview extends React.Component <typings.PropsDefine, typings.StateDefine> {
     static defaultProps: typings.PropsDefine = new typings.Props()
     public state: typings.StateDefine = new typings.State()
@@ -49,6 +51,19 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
                 parentMapUniqueKey: componentInfo.parentMapUniqueKey
             })
         })
+
+        this.preview.event.on(this.preview.event.onCall, this.handleOnCall)
+    }
+
+    componentWillUnmount() {
+        this.preview.event.off(this.preview.event.onCall, this.handleOnCall)
+    }
+
+    /**
+     * 触发调用事件
+     */
+    @autoBindMethod handleOnCall(context: any, eventData: any) {
+        this.props.onCall(eventData.functionName, eventData.param)
     }
 
     render() {

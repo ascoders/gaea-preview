@@ -14,13 +14,19 @@ export interface PropsDefine {
     baseComponents?: Array<React.ComponentClass<FitGaea.ComponentProps>>
 
     /**
+     * 调用指定方法，这个函数在组件->事件中定义调用自定义函数时使用
+     */
+    onCall?: (functionName?: string, param?: any)=>void
+
+    /**
      * 页面信息
      */
     value?: string
 }
 
 export class Props implements PropsDefine {
-
+    onCall = ()=> {
+    }
 }
 
 export interface StateDefine {

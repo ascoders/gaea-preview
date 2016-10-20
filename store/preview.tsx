@@ -3,8 +3,13 @@
  */
 
 import * as React from 'react'
+import Event from './event'
+import EventSystem from '../event-system/event-system'
 
 export default class Preview {
+    public event = new Event()
+    public customEvent = new EventSystem()
+
     /**
      * 基础组件
      */

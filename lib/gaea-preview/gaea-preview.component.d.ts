@@ -5,5 +5,7 @@ export default class GaeaPreview extends React.Component<typings.PropsDefine, ty
     state: typings.StateDefine;
     private preview;
     componentWillMount(): void;
+    componentWillUnmount(): void;
+    handleOnCall(context: any, eventData: any): void;
     render(): JSX.Element;
 }

@@ -1,5 +1,9 @@
 import * as React from 'react';
+import Event from './event';
+import EventSystem from '../event-system/event-system';
 export default class Preview {
+    event: Event;
+    customEvent: EventSystem;
     baseComponents: Array<React.ComponentClass<FitGaea.ComponentProps>>;
     setBaseComponents(baseComponents: Array<React.ComponentClass<FitGaea.ComponentProps>>): void;
     customComponents: Array<React.ComponentClass<FitGaea.ComponentProps>>;

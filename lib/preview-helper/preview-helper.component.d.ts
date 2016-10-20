@@ -5,6 +5,10 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     state: typings.StateDefine;
     private componentInfo;
     private SelfComponent;
+    private handleRunEventBind;
     componentWillMount(): void;
+    componentWillUnmount(): void;
+    handleRunEvent(context: any): void;
+    runEvent(eventData: FitGaea.EventData): void;
     render(): React.ReactElement<any>;
 }

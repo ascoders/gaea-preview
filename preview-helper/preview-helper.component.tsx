@@ -105,8 +105,8 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
         // 子元素
         let childs: Array<React.ReactElement<any>> = null
 
-        // gaea-layout 可以有子元素
-        if (this.componentInfo.props.gaeaUniqueKey === 'gaea-layout' && this.componentInfo.layoutChilds) {
+        // 是否可以有子元素
+        if (this.componentInfo.props.canDragIn && this.componentInfo.layoutChilds) {
             childs = this.componentInfo.layoutChilds.map(layoutChildUniqueMapKey=> {
                 return (
                     <PreviewHelper key={layoutChildUniqueMapKey}

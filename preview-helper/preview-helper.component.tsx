@@ -14,6 +14,9 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
 
     private handleRunEventBind = this.handleRunEvent.bind(this)
 
+    // 事件数据
+    private eventData: Array<FitGaea.EventData>
+
     componentWillMount() {
         // 从 store 找到自己信息
         this.componentInfo = this.props.preview.components.get(this.props.mapUniqueKey)
@@ -22,55 +25,30 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
         this.SelfComponent = this.props.preview.getComponentByUniqueKey(this.componentInfo.props.gaeaUniqueKey)
 
         // 执行初始化事件
-        if (this.props.preview.isReactNative) {
-            this.componentInfo.props.gaeaNativeEventData && this.componentInfo.props.gaeaNativeEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'init') {
-                    this.runEvent(data)
-                }
-            })
-        } else {
-            this.componentInfo.props.gaeaEventData && this.componentInfo.props.gaeaEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'init') {
-                    this.runEvent(data)
-                }
-            })
-        }
+        this.eventData = this.props.preview.isReactNative ? this.componentInfo.props.gaeaNativeEventData : this.componentInfo.props.gaeaEventData
+        this.eventData && this.eventData.forEach(data=> {
+            if (data.typeIndex === -1 && data.type === 'init') {
+                this.runEvent(data)
+            }
+        })
 
         // 监听事件
-        if (this.props.preview.isReactNative) {
-            this.componentInfo.props.gaeaNativeEventData && this.componentInfo.props.gaeaNativeEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'listen') {
-                    const listenData = data.typeData as FitGaea.EventTriggerEvent
-                    this.props.preview.customEvent.on(listenData.listen, this.handleRunEventBind, data)
-                }
-            })
-        } else {
-            this.componentInfo.props.gaeaEventData && this.componentInfo.props.gaeaEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'listen') {
-                    const listenData = data.typeData as FitGaea.EventTriggerEvent
-                    this.props.preview.customEvent.on(listenData.listen, this.handleRunEventBind, data)
-                }
-            })
-        }
+        this.eventData && this.eventData.forEach(data=> {
+            if (data.typeIndex === -1 && data.type === 'listen') {
+                const listenData = data.typeData as FitGaea.EventTriggerEvent
+                this.props.preview.customEvent.on(listenData.listen, this.handleRunEventBind, data)
+            }
+        })
     }
 
     componentWillUnmount() {
         // 取消事件监听
-        if (this.props.preview.isReactNative) {
-            this.componentInfo.props.gaeaNativeEventData && this.componentInfo.props.gaeaNativeEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'listen') {
-                    const listenData = data.typeData as FitGaea.EventTriggerEvent
-                    this.props.preview.customEvent.off(listenData.listen, this.handleRunEventBind)
-                }
-            })
-        } else {
-            this.componentInfo.props.gaeaEventData && this.componentInfo.props.gaeaEventData.forEach(data=> {
-                if (data.typeIndex === -1 && data.type === 'listen') {
-                    const listenData = data.typeData as FitGaea.EventTriggerEvent
-                    this.props.preview.customEvent.off(listenData.listen, this.handleRunEventBind)
-                }
-            })
-        }
+        this.eventData && this.eventData.forEach(data=> {
+            if (data.typeIndex === -1 && data.type === 'listen') {
+                const listenData = data.typeData as FitGaea.EventTriggerEvent
+                this.props.preview.customEvent.off(listenData.listen, this.handleRunEventBind)
+            }
+        })
     }
 
     /**
@@ -103,6 +81,26 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
         }
     }
 
+    /**
+     * 返回调用自己的方法的 key -> Array<value>
+     */
+    getSelfFunctionMap() {
+        // <string,Array<FitGaea.EventData>
+        const functionMap = new Map()
+        this.eventData && this.eventData.forEach(data=> {
+            if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.types[data.typeIndex].selfCallback) {
+                if (functionMap.has(data.type)) {
+                    const functionList = functionMap.get(data.type)
+                    functionList.push(data)
+                    functionMap.set(data.type, functionList)
+                } else {
+                    functionMap.set(data.type, [data])
+                }
+            }
+        })
+        return functionMap
+    }
+
     render() {
         // 子元素
         let childs: Array<React.ReactElement<any>> = null
@@ -121,21 +119,14 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
         let props: any = JSON.parse(JSON.stringify(this.componentInfo.props))
 
         // 循环一些事件添加到 props 中
-        if (this.props.preview.isReactNative) {
-            this.componentInfo.props.gaeaNativeEventData && this.componentInfo.props.gaeaNativeEventData.forEach(data=> {
-                if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.types[data.typeIndex].selfCallback) {
-                    // 这个方法是调用自己的
-                    props[data.type] = this.runEvent.bind(this, data)
-                }
-            })
-        } else {
-            this.componentInfo.props.gaeaEventData && this.componentInfo.props.gaeaEventData.forEach(data=> {
-                if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.types[data.typeIndex].selfCallback) {
-                    // 这个方法是调用自己的
-                    props[data.type] = this.runEvent.bind(this, data)
-                }
-            })
-        }
+        const functionMap = this.getSelfFunctionMap()
+        functionMap.forEach((value: Array<FitGaea.EventData>, key: string)=> {
+            props[key] = (...args: any[])=> {
+                value.forEach(eachValue=> {
+                    this.runEvent.apply(this, [eachValue, ...args])
+                })
+            }
+        })
 
         props.gaeaPreview = true
 

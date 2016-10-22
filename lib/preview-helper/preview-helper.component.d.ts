@@ -6,9 +6,11 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     private componentInfo;
     private SelfComponent;
     private handleRunEventBind;
+    private eventData;
     componentWillMount(): void;
     componentWillUnmount(): void;
     handleRunEvent(context: any): void;
     runEvent(eventData: FitGaea.EventData): void;
+    getSelfFunctionMap(): Map<any, any>;
     render(): React.ReactElement<any>;
 }

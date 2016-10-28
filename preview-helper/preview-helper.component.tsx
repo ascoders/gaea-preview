@@ -149,7 +149,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             const myParser = parser(variable.valueType)
             switch (variable.variableType) {
                 case 'globalParam':
-                    props[variable.field] = myParser(this.props.preview.params[variable.variableField])
+                    props[variable.field] = this.props.preview.params[variable.variableField] ? myParser(this.props.preview.params[variable.variableField]) : null
                     break
             }
         })

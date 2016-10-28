@@ -2,7 +2,21 @@ import * as React from 'react'
 import * as typings from './preview-helper.type'
 import * as _ from 'lodash'
 
-export default class PreviewHelper extends React.Component <typings.PropsDefine, typings.StateDefine> {
+// 根据类型生成处理函数
+const parser = (type: string): (value?: string) => number | string | boolean => {
+    switch (type) {
+        case 'number':
+            return Number
+        case 'string':
+            return (value: string) => {
+                return value && value.toString()
+            }
+        case 'boolean':
+            return Boolean
+    }
+}
+
+export default class PreviewHelper extends React.Component<typings.PropsDefine, typings.StateDefine> {
     static defaultProps: typings.PropsDefine = new typings.Props()
     public state: typings.StateDefine = new typings.State()
 
@@ -26,14 +40,14 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
 
         // 执行初始化事件
         this.eventData = this.props.preview.isReactNative ? this.componentInfo.props.gaeaNativeEventData : this.componentInfo.props.gaeaEventData
-        this.eventData && this.eventData.forEach(data=> {
+        this.eventData && this.eventData.forEach(data => {
             if (data.typeIndex === -1 && data.type === 'init') {
                 this.runEvent(data)
             }
         })
 
         // 监听事件
-        this.eventData && this.eventData.forEach(data=> {
+        this.eventData && this.eventData.forEach(data => {
             if (data.typeIndex === -1 && data.type === 'listen') {
                 const listenData = data.typeData as FitGaea.EventTriggerEvent
                 this.props.preview.customEvent.on(listenData.listen, this.handleRunEventBind, data)
@@ -43,7 +57,7 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
 
     componentWillUnmount() {
         // 取消事件监听
-        this.eventData && this.eventData.forEach(data=> {
+        this.eventData && this.eventData.forEach(data => {
             if (data.typeIndex === -1 && data.type === 'listen') {
                 const listenData = data.typeData as FitGaea.EventTriggerEvent
                 this.props.preview.customEvent.off(listenData.listen, this.handleRunEventBind)
@@ -87,7 +101,7 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
     getSelfFunctionMap() {
         // <string,Array<FitGaea.EventData>
         const functionMap = new Map()
-        this.eventData && this.eventData.forEach(data=> {
+        this.eventData && this.eventData.forEach(data => {
             if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.types[data.typeIndex].selfCallback) {
                 if (functionMap.has(data.type)) {
                     const functionList = functionMap.get(data.type)
@@ -107,7 +121,7 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
 
         // 是否可以有子元素
         if (this.componentInfo.props.canDragIn && this.componentInfo.layoutChilds) {
-            childs = this.componentInfo.layoutChilds.map(layoutChildUniqueMapKey=> {
+            childs = this.componentInfo.layoutChilds.map(layoutChildUniqueMapKey => {
                 return (
                     <PreviewHelper key={layoutChildUniqueMapKey}
                                    preview={this.props.preview}
@@ -116,19 +130,29 @@ export default class PreviewHelper extends React.Component <typings.PropsDefine,
             })
         }
 
-        let props: any = JSON.parse(JSON.stringify(this.componentInfo.props))
+        let props: FitGaea.ComponentProps = JSON.parse(JSON.stringify(this.componentInfo.props))
 
-        // 循环一些事件添加到 props 中
+        // 将回调事件添加到 props 中
         const functionMap = this.getSelfFunctionMap()
-        functionMap.forEach((value: Array<FitGaea.EventData>, key: string)=> {
-            props[key] = (...args: any[])=> {
-                value.forEach(eachValue=> {
+        functionMap.forEach((value: Array<FitGaea.EventData>, key: string) => {
+            props[key] = (...args: any[]) => {
+                value.forEach(eachValue => {
                     this.runEvent.apply(this, [eachValue, ...args])
                 })
             }
         })
 
         props.gaeaPreview = true
+
+        // 将变量字段替换成变量
+        props.gaeaVariables && props.gaeaVariables.map(variable => {
+            const myParser = parser(variable.valueType)
+            switch (variable.variableType) {
+                case 'globalParam':
+                    props[variable.field] = myParser(this.props.preview.params[variable.variableField])
+                    break
+            }
+        })
 
         return React.createElement(this.SelfComponent, props, childs)
     }

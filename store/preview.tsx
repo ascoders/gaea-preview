@@ -81,4 +81,11 @@ export default class Preview {
     setIsReactNative(isNative: boolean) {
         this.isReactNative = isNative
     }
+
+    // 全局参数
+    params?: any = {}
+
+    setParams(params: any) {
+        this.params = params
+    }
 }

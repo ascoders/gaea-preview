@@ -27,6 +27,13 @@ export interface PropsDefine {
      * 页面信息
      */
     value?: string
+
+    /**
+     * 页面传参
+     */
+    params?: {
+        [x: string]: number|string|boolean
+    }
 }
 
 export class Props implements PropsDefine {

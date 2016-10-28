@@ -5,6 +5,9 @@ export interface PropsDefine {
     onCall?: (functionName?: string, param?: any) => void;
     isReactNative?: boolean;
     value?: string;
+    params?: {
+        [x: string]: number | string | boolean;
+    };
 }
 export declare class Props implements PropsDefine {
     onCall: () => void;

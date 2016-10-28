@@ -12,5 +12,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     handleRunEvent(context: any): void;
     runEvent(eventData: FitGaea.EventData): void;
     getSelfFunctionMap(): Map<any, any>;
-    render(): React.ReactElement<any>;
+    render(): React.ComponentElement<FitGaea.ComponentProps & {
+        children?: React.ReactNode;
+    }, any>;
 }

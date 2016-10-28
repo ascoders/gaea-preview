@@ -14,4 +14,6 @@ export default class Preview {
     setRootUniqueId(uniqueId: string): void;
     isReactNative: boolean;
     setIsReactNative(isNative: boolean): void;
+    params?: any;
+    setParams(params: any): void;
 }

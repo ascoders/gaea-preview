@@ -31,6 +31,9 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     // 事件数据
     private eventData: Array<FitGaea.EventData>
 
+    // 内部组件实例
+    public wrappedInstance: React.ReactInstance
+
     componentWillMount() {
         // 从 store 找到自己信息
         this.componentInfo = this.props.preview.components.get(this.props.mapUniqueKey)
@@ -159,6 +162,10 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
                     break
             }
         })
+
+        props.ref = (ref: React.ReactInstance)=> {
+            this.wrappedInstance = ref
+        }
 
         return React.createElement(this.SelfComponent, props, childs)
     }

@@ -7,6 +7,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
     private SelfComponent;
     private handleRunEventBind;
     private eventData;
+    wrappedInstance: React.ReactInstance;
     componentWillMount(): void;
     componentWillUnmount(): void;
     handleRunEvent(context: any): void;

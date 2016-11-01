@@ -76,7 +76,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
      * 执行事件
      */
     runEvent(eventData: FitGaea.EventData) {
-        const event = this.componentInfo.props.gaeaEvent.events[eventData.eventIndex]
+        const event = this.componentInfo.props.gaeaEvent && this.componentInfo.props.gaeaEvent.events[eventData.eventIndex]
         switch (eventData.event) {
             case 'call':
                 this.props.preview.event.emit(this.props.preview.event.onCall, {
@@ -91,6 +91,12 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             case 'emit':
                 const emitData = eventData.eventData as FitGaea.EventActionEvent
                 this.props.preview.customEvent.emit(emitData.emit)
+                break
+            case 'updateProps':
+                const updatePropsData = eventData.eventData as FitGaea.EventUpdatePropsEvent
+                // 只修改属性
+                this.componentInfo.props = _.merge(_.cloneDeep(this.SelfComponent.defaultProps), _.cloneDeep(updatePropsData.props))
+                this.forceUpdate()
                 break
         }
     }

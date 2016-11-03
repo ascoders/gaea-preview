@@ -157,7 +157,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
         props.gaeaVariables && props.gaeaVariables.map(variable => {
             const myParser = parser(variable.valueType)
             switch (variable.variableType) {
-                case 'globalParam':
+                case 'externalParameter':
                     props[variable.field] = this.props.preview.params[variable.variableField] ? myParser(this.props.preview.params[variable.variableField]) : null
                     break
             }

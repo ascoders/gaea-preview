@@ -133,8 +133,8 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             childs = this.componentInfo.layoutChilds.map(layoutChildUniqueMapKey => {
                 return (
                     <PreviewHelper key={layoutChildUniqueMapKey}
-                                   preview={this.props.preview}
-                                   mapUniqueKey={layoutChildUniqueMapKey}/>
+                        preview={this.props.preview}
+                        mapUniqueKey={layoutChildUniqueMapKey} />
                 )
             })
         }
@@ -154,7 +154,8 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
         props.gaeaPreview = true
 
         // 将变量字段替换成变量
-        props.gaeaVariables && props.gaeaVariables.map(variable => {
+        props.gaeaVariables && Object.keys(props.gaeaVariables).forEach(key => {
+            const variable = props.gaeaVariables[key]
             const myParser = parser(variable.valueType)
             switch (variable.variableType) {
                 case 'externalParameter':
@@ -163,7 +164,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             }
         })
 
-        props.ref = (ref: React.ReactInstance)=> {
+        props.ref = (ref: React.ReactInstance) => {
             this.wrappedInstance = ref
         }
 

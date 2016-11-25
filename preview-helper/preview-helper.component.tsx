@@ -154,12 +154,12 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
         props.gaeaPreview = true
 
         // 将变量字段替换成变量
-        props.gaeaVariables && Object.keys(props.gaeaVariables).forEach(key => {
-            const variable = props.gaeaVariables[key]
+        props.gaeaVariables && Object.keys(props.gaeaVariables).forEach(variableField => {
+            const variable = props.gaeaVariables[variableField]
             const myParser = parser(variable.valueType)
             switch (variable.variableType) {
                 case 'externalParameter':
-                    props[key] = this.props.preview.params[variable.variableField] ? myParser(this.props.preview.params[variable.variableField]) : null
+                    props[variableField] = this.props.preview.params[variable.variableField] ? myParser(this.props.preview.params[variable.variableField]) : null
                     break
             }
         })

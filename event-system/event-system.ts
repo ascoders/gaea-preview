@@ -1,4 +1,4 @@
-export declare type EventType = number|string
+export declare type EventType = number | string
 
 /**
  * 事件
@@ -39,7 +39,7 @@ export default class EventSystem {
             return false
         }
 
-        const events = this.events.get(eventType).filter(event=> {
+        const events = this.events.get(eventType).filter(event => {
             return event.callback !== callback
         })
 
@@ -56,7 +56,7 @@ export default class EventSystem {
             return false
         }
 
-        this.events.get(eventType).forEach(event=> {
+        this.events.get(eventType).forEach(event => {
             event.callback(event.context, context)
         })
     }

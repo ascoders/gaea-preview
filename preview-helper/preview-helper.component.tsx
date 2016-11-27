@@ -79,11 +79,11 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
      * 执行事件
      */
     runEvent(eventData: FitGaea.EventData) {
-        const event = this.componentInfo.props.gaeaEvent && this.componentInfo.props.gaeaEvent.events[eventData.eventIndex]
+        const effect = this.componentInfo.props.gaeaEvent && this.componentInfo.props.gaeaEvent.effects[eventData.eventIndex]
         switch (eventData.event) {
             case 'call':
                 this.props.preview.event.emit(this.props.preview.event.onCall, {
-                    functionName: event.call.functionName,
+                    functionName: effect.call.functionName,
                     param: eventData.eventData
                 })
                 break
@@ -111,7 +111,7 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
         // <string,Array<FitGaea.EventData>
         const functionMap = new Map()
         this.eventData && this.eventData.forEach(data => {
-            if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.types[data.typeIndex].selfCallback) {
+            if (data.typeIndex > -1 && this.componentInfo.props.gaeaEvent.triggers[data.typeIndex].selfCallback) {
                 if (functionMap.has(data.type)) {
                     const functionList = functionMap.get(data.type)
                     functionList.push(data)

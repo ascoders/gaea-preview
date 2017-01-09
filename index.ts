@@ -1,4 +1,4 @@
-import 'gaea-model'
+import '../gaea-model/index'
 
 import GaeaPreview from './gaea-preview/gaea-preview.component'
 import {PropsDefine as GaeaPreviewPropsDefine} from './gaea-preview/gaea-preview.type'

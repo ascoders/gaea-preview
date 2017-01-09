@@ -6,7 +6,7 @@ import * as LZString from 'lz-string'
 
 import PreviewHelper from '../preview-helper/preview-helper.component'
 
-import {autoBindMethod} from '../../../common/auto-bind/index'
+import {autoBindMethod} from 'nt-auto-bind'
 
 export default class GaeaPreview extends React.Component <typings.PropsDefine, typings.StateDefine> {
     static defaultProps: typings.PropsDefine = new typings.Props()

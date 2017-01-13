@@ -82,9 +82,10 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
         const effect = this.componentInfo.props.gaeaEvent && this.componentInfo.props.gaeaEvent.effects[eventData.eventIndex]
         switch (eventData.event) {
             case 'call':
+                const callData = eventData.eventData as FitGaea.EventActionCall
                 this.props.preview.event.emit(this.props.preview.event.onCall, {
-                    functionName: effect.call.functionName,
-                    param: eventData.eventData
+                    functionName: callData.functionName,
+                    // param: eventData.eventData
                 })
                 break
             case 'jumpUrl':
@@ -133,8 +134,8 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             childs = this.componentInfo.layoutChilds.map(layoutChildUniqueMapKey => {
                 return (
                     <PreviewHelper key={layoutChildUniqueMapKey}
-                        preview={this.props.preview}
-                        mapUniqueKey={layoutChildUniqueMapKey} />
+                                   preview={this.props.preview}
+                                   mapUniqueKey={layoutChildUniqueMapKey}/>
                 )
             })
         }

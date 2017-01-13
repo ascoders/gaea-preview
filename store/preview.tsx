@@ -38,21 +38,38 @@ export default class Preview {
      * 根据 uniqueKey 获取组件
      */
     getComponentByUniqueKey(uniqueKey: string) {
-        for (let component of this.baseComponents) {
-            if (component.defaultProps.gaeaUniqueKey === uniqueKey) {
-                return component
+        // todo: 兼容 of
+        // for (let component of this.baseComponents) {
+        //     if (component.defaultProps.gaeaUniqueKey === uniqueKey) {
+        //         return component
+        //     }
+        // }
+        //
+        // if (this.customComponents) {
+        //     for (let component of this.customComponents) {
+        //         if (component.defaultProps.gaeaUniqueKey === uniqueKey) {
+        //             return component
+        //         }
+        //     }
+        // }
+
+        let component: React.ComponentClass<FitGaea.ComponentProps> = null
+
+        this.baseComponents.forEach(baseComponent => {
+            if (baseComponent.defaultProps.gaeaUniqueKey === uniqueKey) {
+                component = baseComponent
             }
-        }
+        })
 
         if (this.customComponents) {
-            for (let component of this.customComponents) {
-                if (component.defaultProps.gaeaUniqueKey === uniqueKey) {
-                    return component
+            this.customComponents.forEach(customComponent => {
+                if (customComponent.defaultProps.gaeaUniqueKey === uniqueKey) {
+                    component = customComponent
                 }
-            }
+            })
         }
 
-        return null
+        return component
     }
 
     /**

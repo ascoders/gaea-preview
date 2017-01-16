@@ -16,7 +16,7 @@ export interface PropsDefine {
     /**
      * 调用指定方法，这个函数在组件->事件中定义调用自定义函数时使用
      */
-    onCall?: (functionName?: string, param?: any)=>void
+    onCall?: (functionName?: string, param?: any) => void
 
     /**
      * 是否是 native 环境
@@ -29,6 +29,11 @@ export interface PropsDefine {
     value?: string
 
     /**
+     * 页面配置信息
+     */
+    settings?: string
+
+    /**
      * 页面传参
      */
     params?: {
@@ -37,7 +42,7 @@ export interface PropsDefine {
 }
 
 export class Props implements PropsDefine {
-    onCall = ()=> {
+    onCall = () => {
     }
 }
 

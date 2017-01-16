@@ -24,8 +24,11 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
         // 设置环境
         this.preview.setIsReactNative(this.props.isReactNative)
 
-        // 设置全局传参
+        // 设置外部传参（网页是url参数，app是props参数）
         this.preview.setParams(this.props.params || {})
+
+        // 设置用户设置
+        this.props.settings && this.preview.setSettings(JSON.parse(LZString.decompressFromBase64(this.props.settings)))
 
         // 解析 base64 的 value
         let unCompressValue: {
@@ -38,7 +41,7 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
             }
         }
 
-        unCompressValue && Object.keys(unCompressValue).forEach(mapUniqueKey=> {
+        unCompressValue && Object.keys(unCompressValue).forEach(mapUniqueKey => {
             const componentInfo = unCompressValue[mapUniqueKey]
             const ComponentClass = this.preview.getComponentByUniqueKey(componentInfo.props.gaeaUniqueKey)
 
@@ -73,6 +76,16 @@ export default class GaeaPreview extends React.Component <typings.PropsDefine, t
     }
 
     render() {
+        // 如果用户设置了显示时间段，超出时间段的不显示
+        if (this.preview.settings['showTimeStart'] !== null && this.preview.settings['showTimeEnd'] !== null) {
+            const startDate = new Date(this.preview.settings['showTimeStart'])
+            const endDate = new Date(this.preview.settings['showTimeEnd'])
+            const now = new Date()
+            if (now.getTime() < startDate.getTime() || now.getTime() > endDate.getTime()) {
+                return null
+            }
+        }
+
         return (
             <PreviewHelper preview={this.preview}
                            mapUniqueKey={this.preview.rootMapUniqueKey}/>

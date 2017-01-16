@@ -105,4 +105,11 @@ export default class Preview {
     setParams(params: any) {
         this.params = params
     }
+
+    // 用户设置
+    settings?: any = {}
+
+    setSettings(settings: any) {
+        this.settings = settings
+    }
 }

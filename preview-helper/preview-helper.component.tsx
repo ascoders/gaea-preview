@@ -169,9 +169,27 @@ export default class PreviewHelper extends React.Component<typings.PropsDefine, 
             }
         })
 
+        // 遍历所有字符串常量的值，如果是 ${xxx.xxx} 类型，表示使用传递变量
+        Object.keys(props).forEach(propsField => {
+            if (propsField.startsWith('gaea')) {
+                return
+            }
+
+            try {
+                props[propsField] = props[propsField].replace(/\$\{(.*)\}/g, (str: string, match: string) => {
+                    return _.get(this.props.gaeaData, match)
+                })
+            } catch (err) {
+
+            }
+        })
+
         props.ref = (ref: React.ReactInstance) => {
             this.wrappedInstance = ref
         }
+
+        // gaeaData 注入
+        props.gaeaData = this.props.gaeaData
 
         return React.createElement(this.SelfComponent, props, childs)
     }

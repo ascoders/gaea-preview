@@ -5,6 +5,11 @@ export interface PropsDefine {
     preview?: Preview
 
     /**
+     * 可能是任何组件希望传递的数据
+     */
+    gaeaData?: any
+
+    /**
      * 当前元素的查找的 id
      */
     mapUniqueKey?: string
